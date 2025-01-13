@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import cv2
 import math
 from typing import List, Tuple
-
+import random
 
 class VideoBrushApp:
     def __init__(self, root):
@@ -56,7 +56,6 @@ class VideoBrushApp:
         """Create a separate window for controls."""
         self.controls_window = tk.Toplevel(self.root)
         self.controls_window.title("Controls")
-        self.controls_window.geometry("300x400")
 
         self.video_button = tk.Button(self.controls_window, text="Choose Video", command=self.choose_videos)
         self.video_button.pack(fill=tk.X, padx=5, pady=5)
@@ -130,17 +129,22 @@ class VideoBrushApp:
     def set_frame_spacing_at_load(self, event):
         self.frame_spacing_at_load = int(self.frame_spacing_at_load_fn.get())
 
+    def execute_script(self, script):
+        i = len(self.actions) + 1
+        int_val = int(eval(script))
+        return int_val
+
     def get_brush_size(self):
-        return int(self.brush_size_fn.get())
+        return self.execute_script(self.brush_size_fn.get())
 
     def get_min_spacing(self):
-        return int(self.min_spacing_fn.get())
+        return self.execute_script(self.min_spacing_fn.get())
 
     def get_frame_spacing(self):
-        return int(self.frame_spacing_fn.get())
+        return self.execute_script(self.frame_spacing_fn.get())
 
     def get_saturate(self):
-        return float(self.saturate_fn.get())
+        return self.execute_script(self.saturate_fn.get())
 
     def paint(self, event):
         if not self.drawing_mode:
